@@ -1,35 +1,20 @@
-#include "rutils/format.h"
-#include "rutils/enum_to_string.h"
-#include "rutils/ensure.h"
-#include <print>
-#include <iostream>
+#include "test_support.h"
 
-template<typename T>
-struct Test
-{
-	consteval
-	{
-		rutils::ensure(std::meta::is_same_type(^^T, ^^int), "T ({}) is not int.", ^^T);
-	}
-};
+#include <cstdlib>
 
-
-consteval 
-{
-}
-
-enum class m
-{
-	a
-};
+void test_ensure(test_context& context);
+void test_enum_to_string(test_context& context);
+void test_fixed_string(test_context& context);
+void test_format(test_context& context);
 
 int main()
 {
-	constexpr auto s = rutils::format("Hello {} asd {} 232 {} asas", 12, m::a, ^^bool);
-	
-	Test<bool> a;
+	test_context context;
 
-	std::println("{}", s);
-	std::println("Enum = {}", rutils::enum_to_string(m::a));
-	return 0;
+	test_ensure(context);
+	test_enum_to_string(context);
+	test_fixed_string(context);
+	test_format(context);
+
+	return context.finish() ? EXIT_SUCCESS : EXIT_FAILURE;
 }

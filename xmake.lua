@@ -37,7 +37,7 @@ option_end()
 
 local cxx_toolchain = has_config("gcc") and "gcc-16" or "clang-p2996"
 
--- Compile-smoke under clang-p2996, run via `xmake test`.
+-- Unit and compile-failure tests under clang-p2996, run via `xmake test`.
 --
 -- Only *defined* when the toolchain is on disk: xmake loads a target's
 -- toolchain even when default(false), so an unconditional definition would
@@ -49,7 +49,7 @@ local cxx_toolchain = has_config("gcc") and "gcc-16" or "clang-p2996"
 option("tests")
 	set_default(false)
 	set_showmenu(true)
-	set_description("Build the compile-smoke test (auto-on once clang-p2996 is provisioned)")
+	set_description("Build the test suite (auto-on once clang-p2996 is provisioned)")
 option_end()
 
 local clang_ready = os.isfile(path.join(os.projectdir(), ".toolchains", "clang-p2996", "bin",
@@ -61,7 +61,18 @@ if has_config("tests") or has_config("gcc") or clang_ready then
 		set_default(false)
 		set_toolchains(cxx_toolchain)
 		add_deps("rutils")
-		add_files("tests/main.cpp")
-		add_tests("compile_smoke")
+		add_files("tests/*.cpp")
+		add_tests("unit_tests")
 		restrict_windows_to_mingw()
+
+	for _, name in ipairs({ "ensure_default", "ensure_formatted" }) do
+		target("rutils_" .. name .. "_compile_fail")
+			set_kind("binary")
+			set_default(false)
+			set_toolchains(cxx_toolchain)
+			add_deps("rutils")
+			add_files("tests/compile_fail/" .. name .. ".cpp")
+			add_tests("expected_failure", { build_should_fail = true })
+			restrict_windows_to_mingw()
+	end
 end
