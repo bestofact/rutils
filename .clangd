@@ -1,0 +1,8 @@
+CompileFlags:
+  Compiler: /Users/cantu/opt/clang-p2996/bin/clang++
+  Add:
+    - --sysroot=/Library/Developer/CommandLineTools/SDKs/MacOSX.sdk
+    - -std=c++26
+    - -freflection-latest
+    - -fconstexpr-steps=10000000
+    - -ftemplate-depth=2048

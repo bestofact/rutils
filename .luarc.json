@@ -1,0 +1,29 @@
+{
+    "$schema": "https://raw.githubusercontent.com/LuaLS/vscode-lua/master/setting/schema.json",
+    "runtime.version": "LuaJIT",
+    "workspace.library": [
+        "~/.local/share/luals-addons/xmake/library"
+    ],
+    "diagnostics.globals": [
+        "set_license",
+        "add_tests",
+        "toolchain",
+        "import",
+        "cprint",
+        "raise",
+        "try",
+        "catch",
+        "find_tool",
+        "path",
+        "http",
+        "archive",
+        "json"
+    ],
+    "diagnostics.disable": [
+        "undefined-field",
+        "param-type-mismatch",
+        "missing-fields",
+        "redundant-parameter",
+        "lowercase-global"
+    ]
+}
