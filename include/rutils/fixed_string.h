@@ -24,4 +24,4 @@ namespace rutils
 
 		constexpr bool operator==(const fixed_string&) const = default;
 	};
-} // namespace rast::detail
+} // namespace rutils
